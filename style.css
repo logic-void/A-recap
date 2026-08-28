@@ -1,0 +1,419 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+@property --body-bg {
+    syntax: "<color>";
+    initial-value: #000;
+    inherits: false;
+}
+@keyframes change-body-bg {
+    0% {
+        --body-bg: #222;
+    }
+    50% {
+        --body-bg: #000;
+    }
+    100% {
+        --body-bg: #222;
+    }
+}
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container {
+    height: min(1200px, 100vh);
+    width: min(100vw, 1000px);
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: transparent;
+    z-index: 0;
+    background: linear-gradient(
+        135deg,
+        #000,
+        var(--body-bg),
+        #000,
+        var(--body-bg),
+        #000
+    );
+    animation: change-body-bg 8s ease-in-out forwards infinite;
+}
+
+#guide {
+    aspect-ratio: 2/3;
+    width: min(25vw, 250px);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateX(-100%);
+    anchor-name: --guide;
+    transition: opacity 800ms ease;
+}
+.guide-msg {
+    position: absolute;
+    position-anchor: --guide;
+    bottom: calc(anchor(top) + min(10vw, 100px));
+    left: anchor(center);
+    width: min(35vw, 350px);
+    background: ivory;
+    padding: 0.5rem;
+    border-radius: 20%;
+    color: #111;
+    font-size: min(3vw, 30px);
+    font-family: "Poppins", serif;
+    corner-shape: squircle;
+    scale: 0;
+    transform-origin: -50% 0;
+    transform: translate(-50%, 0);
+    transition: scale 500ms 1200ms ease;
+}
+.guide-msg.open {
+    scale: 1;
+}
+.guide-msg::before {
+    content: "tap to continue";
+    position: absolute;
+    font-size: min(1.5vw, 15px);
+    width: 100%;
+    font-weight: bold;
+    border: min(0.5vw, 5px) solid grey;
+    background: ivory;
+    bottom: 0;
+    left: 50%;
+    padding: min(1vw, 10px);
+    border-radius: 10px;
+    scale: 0;
+    transform-origin: 0 100%;
+    transform: translate(-50%, 100%);
+    transition: scale 500ms 2200ms ease;
+}
+.guide-msg.no-guide::before {
+    display: none;
+}
+.guide-msg.font-color {
+    animation: change-font-color 600ms 300ms;
+}
+@keyframes change-font-color {
+    0% {
+        color: #111;
+    }
+    50% {
+        color: transparent;
+    }
+    100% {
+        color: #111;
+    }
+}
+.guide-msg.open::before {
+    scale: 1;
+}
+.bubble1,
+.bubble2 {
+    position: absolute;
+    position-anchor: --guide;
+    width: min(2.5vw, 25px);
+    height: min(2.5vw, 25px);
+    background: ivory;
+    border-radius: 50%;
+    opacity: 0;
+}
+.bubble1 {
+    bottom: calc(anchor(top) - min(1.2vw, 12px));
+    left: anchor(center);
+    transition: opacity 500ms ease;
+}
+.bubble2 {
+    bottom: calc(anchor(top) + min(1.3vw, 13px));
+    left: calc(anchor(center) + min(2vw, 20px));
+    transition: opacity 500ms 300ms ease;
+}
+.bubble1.show,
+.bubble2.show {
+    opacity: 1;
+}
+#startBtn {
+    padding: min(3vw, 30px);
+    color: ivory;
+    font-size: min(3vw, 30px);
+    border-radius: min(5vw, 50px);
+    letter-spacing: 0.1rem;
+    font-family: "Poppins", serif;
+    corner-shape: squircle;
+    background: radial-gradient(#000, #222);
+    border: min(0.3vw, 3px) solid grey;
+    outline: none;
+    position: absolute;
+    right: 0;
+    top: 60%;
+    transform: translateX(100%);
+    transition: 300ms ease;
+    anchor-name: --start-btn;
+}
+#startBtn:hover,
+#startBtn:active {
+    border: min(0.5vw, 5px) solid grey;
+    background: radial-gradient(#000, #333);
+}
+.cyt-butt {
+    font-size: min(10vw, 100px);
+    position: absolute;
+    position-anchor: --start-btn;
+    left: anchor(center);
+    top: 0;
+    transform: translate(-100%, 50%);
+    background: #111;
+    rotate: 90deg;
+}
+.cyt-butt::before {
+    content: "Cyt's butt";
+    position: absolute;
+    top: -120%;
+    word-wrap: nowrap;
+    color: white;
+    font-family: cursive;
+    transform: rotate(-90deg);
+    font-size: min(5vw, 50px);
+}
+#password {
+    padding: min(3vw, 30px);
+    background: transparent;
+    outline: none;
+    width: min(42vw, 420px);
+    font-size: min(3vw, 30px);
+    font-family: "Poppins", serif;
+    border: min(0.5vw, 5px) solid rgba(255, 255, 255, 0.5);
+    border-radius: min(3vw, 30px);
+    color: ivory;
+    transition: 500ms ease;
+    position: absolute;
+    position-anchor: --start-btn;
+    bottom: calc(anchor(top) + min(3vw, 30px));
+    left: anchor(center);
+    translate: -50% 0;
+    transform: translate(0, max(-150vw, -1500px)) rotate(90deg);
+}
+#password::placeholder {
+    color: ivory;
+}
+#password:hover,
+#password:focus {
+    border-color: rgba(255, 255, 255, 0.65);
+}
+.chat-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0);
+}
+.chat-screen.show {
+    animation: change-bg 2000ms forwards;
+}
+@keyframes change-bg {
+    to {
+        background: rgba(0, 0, 0, 1);
+    }
+}
+.tagline {
+    color: #f5e9da;
+    font-size: min(6vw, 60px);
+    font-family: "EB Garamond", serif;
+    text-shadow: min(1vw, 10px) min(1vw, 10px) min(2.25vw, 22.5px) #c9a227;
+    anchor-name: --tagline;
+    transform: rotateX(90deg);
+    transform-origin: 50% 100%;
+    opacity: 0.3;
+    pointer-events: none;
+    text-align: center;
+    z-index: 1;
+    transition: 1500ms 1500ms ease;
+}
+.tagdate {
+    color: #f5e9dacc;
+    font-size: min(7.3vw, 73px);
+    font-family: "DS-Digital", serif;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.3;
+    transform-origin: 50% 0;
+    position: absolute;
+    position-anchor: --tagline;
+    transform: translateY(120%) rotateX(90deg);
+    transition: 1500ms 1500ms ease;
+}
+.tagline.show {
+    transform: rotateX(0);
+    opacity: 1;
+}
+.tagdate.show {
+    transform: translateY(110%) rotateX(0);
+    opacity: 1;
+}
+#chatbg {
+    z-index: 1;
+    position: absolute;
+    height: min(100vw, 1000px);
+    aspect-ratio: 3/5;
+    border-radius: min(7vw, 70px);
+    right: min(1vw, 10px);
+    opacity: 0;
+    anchor-name: --chatbg;
+    pointer-events: none;
+    transition: opacity 500ms ease;
+}
+#chatbg.show {
+    opacity: 1;
+}
+.chat-header {
+    position: absolute;
+    position-anchor: --chatbg;
+    text-align: left;
+    top: anchor(top);
+    z-index: 2;
+    padding: min(2vw, 20px);
+    width: anchor-size(width);
+    left: anchor(left);
+    pointer-events: none;
+    background: transparent;
+    color: ivory;
+    font-size: min(3vw, 30px);
+    transform: translateX(100%);
+    opacity: 0;
+    font-family: "EB Garamond", serif;
+    border-radius: min(5vw, 50px);
+    corner-shape: round round squircle squircle;
+    border: min(0.3vw, 3px) solid #000;
+    transition: 800ms 1000ms ease;
+}
+.chat-header.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+.chat-footer {
+    position: absolute;
+    position-anchor: --chatbg;
+    text-align: left;
+    bottom: anchor(bottom);
+    z-index: 2;
+    padding: min(1.5vw, 15px);
+    pointer-events: none;
+    width: anchor-size(width);
+    left: anchor(left);
+    background: linear-gradient(#555, #777);
+    color: black;
+    font-size: min(2vw, 20px);
+    transform: translateX(-100%);
+    corner-shape: squircle squircle round round;
+    opacity: 0;
+    font-family: "EB Garamond", serif;
+    border-radius: min(5vw, 50px);
+    border: min(0.3vw, 3px) solid #000;
+    transition: 800ms 1000ms ease;
+}
+.chat-footer.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+.texts-layer {
+    position: absolute;
+    position-anchor: --chatbg;
+    width: anchor-size(width);
+    height: anchor-size(height);
+    pointer-events: none;
+    top: anchor(top);
+    left: anchor(left);
+    background: transparent;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+}
+.texts-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: min(2vw, 20px);
+    gap: min(5vw, 50px);
+    pointer-events: none;
+    flex-grow: 0;
+    transform: translateY(60%);
+    opacity: 1;
+    transition:
+        transform 300ms linear,
+        opacity 800ms ease;
+}
+.text {
+    font-size: min(3vw, 30px);
+    border-radius: 5px;
+    corner-shape: squircle;
+    position: relative;
+    pointer-events: none;
+    z-index: 1;
+    padding: min(1vw, 10px) min(3vw, 30px);
+    max-width: 50%;
+    font-family: "Poppins", serif;
+    scale: 0;
+    opacity: 0.5;
+    transition: scale 800ms ease;
+}
+.text::before {
+    font-size: min(2vw, 20px);
+    color: white;
+    font-family: "EB Garamond", serif;
+    position: absolute;
+    top: 0;
+    transform: translateY(-100%);
+}
+.text.mine {
+    align-self: flex-end;
+    background: linear-gradient(to right, #be9191, #be9191cc);
+    color: #222;
+    transform-origin: 100% 50%;
+}
+.text.mine::before {
+    content: "Billa";
+    right: 15%;
+}
+.text.their {
+    align-self: flex-start;
+    background: linear-gradient(to left, #666, #666666aa);
+    color: #f5e9da;
+    transform-origin: 0% 50%;
+}
+.text.their::before {
+    left: 15%;
+}
+.text.maaltin::before {
+    content: "Maaltin";
+}
+.text.wassay::before {
+    content: "Wassay";
+}
+.text.show {
+    scale: 1;
+    opacity: 1;
+}
+.final-texts {
+    display: flex;
+    position: absolute;
+    padding: 2rem;
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    pointer-events: none;
+    font-size: min(4vw, 40px);
+    gap: 2rem;
+    color: #f5e9da;
+    text-shadow: min(1vw, 10px) min(1vw, 10px) min(2.25vw, 22.5px) #c9a227;
+    font-family: "Dancing Script", cursive;
+}
